@@ -1,0 +1,163 @@
+import assert from 'node:assert/strict';
+import http from 'node:http';
+import test from 'node:test';
+import { advertiseService } from '../src/advertise.ts';
+import { discoverServices } from '../src/discover.ts';
+
+const cluster = 'c-version-test';
+const serviceName = 'multi-version';
+
+test('discover multiple versions and select highest', async () => {
+  const servers: any[] = [];
+  const stops: (() => void)[] = [];
+
+  // Create 3 servers with different versions
+  const configs = [
+    { port: 9303, version: '1.0.0', node: 'http:v1' },
+    { port: 9304, version: '1.2.0', node: 'http:v2' },
+    { port: 9305, version: '0.9.0', node: 'http:v3' },
+  ];
+
+  for (const cfg of configs) {
+    const server = http
+      .createServer((_req, res) => {
+        res.writeHead(200);
+        res.end('ok');
+      })
+      .listen(cfg.port);
+    servers.push(server);
+
+    const stop = advertiseService({
+      cluster,
+      serviceName,
+      transport: 'http',
+      port: cfg.port,
+      path: '/mcp',
+      version: cfg.version,
+      auth: 'psk',
+      node: cfg.node,
+    });
+    stops.push(stop);
+  }
+
+  // Wait for mDNS propagation
+  await new Promise((r) => setTimeout(r, 300));
+
+  const results = await discoverServices({ cluster, serviceName, timeoutMs: 1200 });
+  assert.ok(results.length >= 3, 'Should discover at least 3 services');
+
+  // User filters and selects highest version
+  const best = results.sort((a, b) => (b.version || '0').localeCompare(a.version || '0', undefined, { numeric: true }))[0];
+
+  assert.ok(best, 'Should find a service');
+  assert.equal(best.version, '1.2.0', 'Should pick highest version');
+  assert.equal(best.port, 9304, 'Should pick port of v1.2.0 service');
+
+  for (const s of stops) s();
+  for (const s of servers) s.close();
+});
+
+test('discover multiple versions and select lowest', async () => {
+  const servers: any[] = [];
+  const stops: (() => void)[] = [];
+
+  const configs = [
+    { port: 9403, version: '2.0.0', node: 'http:v1' },
+    { port: 9404, version: '1.5.0', node: 'http:v2' },
+    { port: 9405, version: '1.0.0', node: 'http:v3' },
+  ];
+
+  for (const cfg of configs) {
+    const server = http
+      .createServer((_req, res) => {
+        res.writeHead(200);
+        res.end('ok');
+      })
+      .listen(cfg.port);
+    servers.push(server);
+
+    const stop = advertiseService({
+      cluster: 'c-lowest-test',
+      serviceName: 'lowest-test',
+      transport: 'http',
+      port: cfg.port,
+      path: '/mcp',
+      version: cfg.version,
+      auth: 'psk',
+      node: cfg.node,
+    });
+    stops.push(stop);
+  }
+
+  await new Promise((r) => setTimeout(r, 300));
+
+  const results = await discoverServices({ cluster: 'c-lowest-test', serviceName: 'lowest-test', timeoutMs: 1200 });
+
+  // Select lowest version
+  const lowest = results.sort((a, b) => (a.version || '0').localeCompare(b.version || '0', undefined, { numeric: true }))[0];
+
+  assert.ok(lowest, 'Should find at least one service');
+  assert.equal(lowest.version, '1.0.0', 'Should pick lowest version');
+  assert.equal(lowest.port, 9405);
+
+  for (const s of stops) s();
+  for (const s of servers) s.close();
+});
+
+test('filter versions by range (v1.x only)', async () => {
+  const servers: any[] = [];
+  const stops: (() => void)[] = [];
+
+  const configs = [
+    { port: 9503, version: '1.0.0', node: 'http:v1.0' },
+    { port: 9504, version: '1.5.0', node: 'http:v1.5' },
+    { port: 9505, version: '2.0.0', node: 'http:v2.0' },
+  ];
+
+  for (const cfg of configs) {
+    const server = http
+      .createServer((_req, res) => {
+        res.writeHead(200);
+        res.end('ok');
+      })
+      .listen(cfg.port);
+    servers.push(server);
+
+    const stop = advertiseService({
+      cluster: 'c-range-test',
+      serviceName: 'range-test',
+      transport: 'http',
+      port: cfg.port,
+      path: '/mcp',
+      version: cfg.version,
+      auth: 'psk',
+      node: cfg.node,
+    });
+    stops.push(stop);
+  }
+
+  await new Promise((r) => setTimeout(r, 300));
+
+  const results = await discoverServices({ cluster: 'c-range-test', serviceName: 'range-test', timeoutMs: 1200 });
+
+  // Filter to v1.x only
+  const v1Services = results.filter((s) => s.version && s.version.startsWith('1.'));
+
+  assert.equal(v1Services.length, 2, 'Should find 2 v1.x services');
+  assert.ok(
+    v1Services.every((s) => s.version?.startsWith('1.')),
+    'All should be v1.x'
+  );
+
+  for (const s of stops) s();
+  for (const s of servers) s.close();
+});
+
+test('discover returns empty array when no services found', async () => {
+  const results = await discoverServices({
+    cluster: 'nonexistent',
+    serviceName: 'nonexistent',
+    timeoutMs: 500,
+  });
+  assert.equal(results.length, 0);
+});
