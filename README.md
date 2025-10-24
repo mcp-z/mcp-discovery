@@ -3,6 +3,8 @@
 
 [![npm](https://img.shields.io/npm/v/@mcp-z/mcp-discovery.svg)](https://www.npmjs.com/package/@mcp-z/mcp-discovery)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node](https://img.shields.io/node/v/@mcp-z/mcp-discovery.svg)](https://nodejs.org)
+[![npm downloads](https://img.shields.io/npm/dm/@mcp-z/mcp-discovery.svg)](https://www.npmjs.com/package/@mcp-z/mcp-discovery)
 
 **Zero-configuration service discovery for MCP servers via mDNS. Supports HTTP and WebSocket transports.**
 
@@ -43,7 +45,14 @@ This library enables zero-configuration discovery of private MCP endpoints withi
 ## Install
 
 ```bash
+# npm
 npm install @mcp-z/mcp-discovery
+
+# yarn
+yarn add @mcp-z/mcp-discovery
+
+# pnpm
+pnpm add @mcp-z/mcp-discovery
 ```
 
 ---
@@ -103,6 +112,24 @@ await client.connect(transport);
 const tools = await client.listTools();
 console.log('Available tools:', tools);
 ```
+
+---
+
+## Quick Win (30 seconds)
+
+Want to see mDNS discovery working immediately?
+
+```bash
+# Clone and install
+git clone https://github.com/mcp-z/mcp-discovery.git
+cd mcp-discovery
+npm install
+
+# Run the integration test - watch discovery happen in real-time!
+npm test
+```
+
+✅ You'll see services being advertised and discovered via mDNS!
 
 ---
 
@@ -291,13 +318,35 @@ Clients discover both and can select either.
 
 ## Examples & Tests
 
-See [`test/`](./test) directory for comprehensive examples:
+### Complete Working Examples
 
-- [`websocket-integration.test.ts`](./test/websocket-integration.test.ts) - Full WebSocket server + discovery + connection
-- [`version-selection.test.ts`](./test/version-selection.test.ts) - Version filtering strategies
-- [`psk-auth.test.ts`](./test/psk-auth.test.ts) - PSK authentication
+See the [`test/`](./test) directory for comprehensive examples:
 
-Run tests: `npm test` (17 tests, all passing)
+**Basic Discovery:**
+- [`test/basic-discovery.test.ts`](./test/basic-discovery.test.ts) - Simple server advertisement and client discovery
+- Quick pattern: Advertise → Discover → Connect
+
+**Version Selection:**
+- [`test/version-selection.test.ts`](./test/version-selection.test.ts) - Filter by version, select highest version, compatibility ranges
+- Perfect for: Multi-version deployments
+
+**WebSocket Integration:**
+- [`test/websocket-integration.test.ts`](./test/websocket-integration.test.ts) - Complete WebSocket server + client + MCP communication
+- Production-ready: Full lifecycle management
+
+**PSK Authentication:**
+- [`test/psk-auth.test.ts`](./test/psk-auth.test.ts) - Pre-shared key authentication patterns
+- Secure: HMAC-based request signing
+
+**Run all tests:**
+```bash
+npm test  # 17 tests, all passing
+```
+
+**Run specific test:**
+```bash
+npm test -- test/websocket-integration.test.ts
+```
 
 ---
 
