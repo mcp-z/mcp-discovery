@@ -2,10 +2,10 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { WebSocketClientTransport } from '@modelcontextprotocol/sdk/client/websocket.js';
 import { WebSocketServer } from 'ws';
-
-const port = 9800;
+import getPort from 'get-port';
 
 test('WebSocketClientTransport: connects successfully', async () => {
+  const port = await getPort();
   const wss = new WebSocketServer({ port });
 
   const transport = new WebSocketClientTransport(new URL(`ws://localhost:${port}`));
@@ -18,7 +18,8 @@ test('WebSocketClientTransport: connects successfully', async () => {
 });
 
 test('WebSocketClientTransport: sends and receives messages', async () => {
-  const wss = new WebSocketServer({ port: port + 1 });
+  const port = await getPort();
+  const wss = new WebSocketServer({ port });
   const receivedMessages: any[] = [];
 
   wss.on('connection', (ws) => {
@@ -37,7 +38,7 @@ test('WebSocketClientTransport: sends and receives messages', async () => {
     });
   });
 
-  const transport = new WebSocketClientTransport(new URL(`ws://localhost:${port + 1}`));
+  const transport = new WebSocketClientTransport(new URL(`ws://localhost:${port}`));
 
   const responses: any[] = [];
   transport.onmessage = (msg) => {
@@ -84,9 +85,10 @@ test('WebSocketClientTransport: handles connection errors', async () => {
 });
 
 test('WebSocketClientTransport: calls onclose callback', async () => {
-  const wss = new WebSocketServer({ port: port + 2 });
+  const port = await getPort();
+  const wss = new WebSocketServer({ port });
 
-  const transport = new WebSocketClientTransport(new URL(`ws://localhost:${port + 2}`));
+  const transport = new WebSocketClientTransport(new URL(`ws://localhost:${port}`));
 
   let closeCalled = false;
   transport.onclose = () => {

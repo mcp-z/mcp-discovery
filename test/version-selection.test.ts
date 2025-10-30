@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import test from 'node:test';
+import getPort from 'get-port';
 import { advertiseService } from '../src/advertise.ts';
 import { discoverServices } from '../src/discover.ts';
 
@@ -11,11 +12,14 @@ test('discover multiple versions and select highest', async () => {
   const servers: any[] = [];
   const stops: (() => void)[] = [];
 
+  // Get dynamic ports for 3 servers
+  const [port1, port2, port3] = await Promise.all([getPort(), getPort(), getPort()]);
+
   // Create 3 servers with different versions
   const configs = [
-    { port: 9303, version: '1.0.0', node: 'http:v1' },
-    { port: 9304, version: '1.2.0', node: 'http:v2' },
-    { port: 9305, version: '0.9.0', node: 'http:v3' },
+    { port: port1, version: '1.0.0', node: 'http:v1' },
+    { port: port2, version: '1.2.0', node: 'http:v2' },
+    { port: port3, version: '0.9.0', node: 'http:v3' },
   ];
 
   for (const cfg of configs) {
@@ -51,7 +55,7 @@ test('discover multiple versions and select highest', async () => {
 
   assert.ok(best, 'Should find a service');
   assert.equal(best.version, '1.2.0', 'Should pick highest version');
-  assert.equal(best.port, 9304, 'Should pick port of v1.2.0 service');
+  assert.equal(best.port, port2, 'Should pick port of v1.2.0 service');
 
   for (const s of stops) s();
   for (const s of servers) s.close();
@@ -61,10 +65,13 @@ test('discover multiple versions and select lowest', async () => {
   const servers: any[] = [];
   const stops: (() => void)[] = [];
 
+  // Get dynamic ports for 3 servers
+  const [port1, port2, port3] = await Promise.all([getPort(), getPort(), getPort()]);
+
   const configs = [
-    { port: 9403, version: '2.0.0', node: 'http:v1' },
-    { port: 9404, version: '1.5.0', node: 'http:v2' },
-    { port: 9405, version: '1.0.0', node: 'http:v3' },
+    { port: port1, version: '2.0.0', node: 'http:v1' },
+    { port: port2, version: '1.5.0', node: 'http:v2' },
+    { port: port3, version: '1.0.0', node: 'http:v3' },
   ];
 
   for (const cfg of configs) {
@@ -98,7 +105,7 @@ test('discover multiple versions and select lowest', async () => {
 
   assert.ok(lowest, 'Should find at least one service');
   assert.equal(lowest.version, '1.0.0', 'Should pick lowest version');
-  assert.equal(lowest.port, 9405);
+  assert.equal(lowest.port, port3);
 
   for (const s of stops) s();
   for (const s of servers) s.close();
@@ -108,10 +115,13 @@ test('filter versions by range (v1.x only)', async () => {
   const servers: any[] = [];
   const stops: (() => void)[] = [];
 
+  // Get dynamic ports for 3 servers
+  const [port1, port2, port3] = await Promise.all([getPort(), getPort(), getPort()]);
+
   const configs = [
-    { port: 9503, version: '1.0.0', node: 'http:v1.0' },
-    { port: 9504, version: '1.5.0', node: 'http:v1.5' },
-    { port: 9505, version: '2.0.0', node: 'http:v2.0' },
+    { port: port1, version: '1.0.0', node: 'http:v1.0' },
+    { port: port2, version: '1.5.0', node: 'http:v1.5' },
+    { port: port3, version: '2.0.0', node: 'http:v2.0' },
   ];
 
   for (const cfg of configs) {

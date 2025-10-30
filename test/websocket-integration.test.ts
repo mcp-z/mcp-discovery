@@ -5,15 +5,17 @@ import { WebSocketClientTransport } from '@modelcontextprotocol/sdk/client/webso
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import { WebSocketServer } from 'ws';
+import getPort from 'get-port';
 import { advertiseService } from '../src/advertise.ts';
 import { discoverServices, toBaseUrl } from '../src/discover.ts';
 import { WebSocketServerTransport } from '../src/transports/websocket-server.ts';
 
 const cluster = 'c-ws-test';
 const serviceName = 'ws-service';
-const port = 9700;
 
 test('WebSocket: complete flow with MCP SDK server transport', { timeout: 5000 }, async () => {
+  const port = await getPort();
+
   // Step 1: Create WebSocket server with MCP SDK
   const wss = new WebSocketServer({ port });
   const servers: Server[] = [];
