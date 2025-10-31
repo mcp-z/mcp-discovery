@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { WebSocketClientTransport } from '@modelcontextprotocol/sdk/client/websocket.js';
-import { WebSocketServer } from 'ws';
 import getPort from 'get-port';
+import { WebSocketServer } from 'ws';
 
 test('WebSocketClientTransport: connects successfully', async () => {
   const port = await getPort();
