@@ -1,10 +1,10 @@
 
-# @mcp-z/mcp-discovery
+# @mcpeasy/mcp-discovery
 
-[![npm](https://img.shields.io/npm/v/@mcp-z/mcp-discovery.svg)](https://www.npmjs.com/package/@mcp-z/mcp-discovery)
+[![npm](https://img.shields.io/npm/v/@mcpeasy/mcp-discovery.svg)](https://www.npmjs.com/package/@mcpeasy/mcp-discovery)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node](https://img.shields.io/node/v/@mcp-z/mcp-discovery.svg)](https://nodejs.org)
-[![npm downloads](https://img.shields.io/npm/dm/@mcp-z/mcp-discovery.svg)](https://www.npmjs.com/package/@mcp-z/mcp-discovery)
+[![Node](https://img.shields.io/node/v/@mcpeasy/mcp-discovery.svg)](https://nodejs.org)
+[![npm downloads](https://img.shields.io/npm/dm/@mcpeasy/mcp-discovery.svg)](https://www.npmjs.com/package/@mcpeasy/mcp-discovery)
 
 **Zero-configuration service discovery for MCP servers via mDNS. Supports HTTP and WebSocket transports.**
 
@@ -46,13 +46,13 @@ This library enables zero-configuration discovery of private MCP endpoints withi
 
 ```bash
 # npm
-npm install @mcp-z/mcp-discovery
+npm install @mcpeasy/mcp-discovery
 
 # yarn
-yarn add @mcp-z/mcp-discovery
+yarn add @mcpeasy/mcp-discovery
 
 # pnpm
-pnpm add @mcp-z/mcp-discovery
+pnpm add @mcpeasy/mcp-discovery
 ```
 
 ---
@@ -62,7 +62,7 @@ pnpm add @mcp-z/mcp-discovery
 ### Server: Advertise Your Service
 
 ```typescript
-import { advertiseService } from '@mcp-z/mcp-discovery';
+import { advertiseService } from '@mcpeasy/mcp-discovery';
 
 const stopAdvertising = advertiseService({
   cluster: 'my-cluster',
@@ -85,7 +85,7 @@ process.on('SIGINT', () => {
 ### Client: Discover and Connect
 
 ```typescript
-import { discoverServices, toBaseUrl } from '@mcp-z/mcp-discovery';
+import { discoverServices, toBaseUrl } from '@mcpeasy/mcp-discovery';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 
@@ -213,7 +213,7 @@ const transport = new WebSocketClientTransport(new URL(toBaseUrl(service)));
 **Server:** Use included `WebSocketServerTransport`
 
 ```typescript
-import { WebSocketServerTransport } from '@mcp-z/mcp-discovery/transports/websocket-server.js';
+import { WebSocketServerTransport } from '@mcpeasy/mcp-discovery/transports/websocket-server.js';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { WebSocketServer } from 'ws';
 
@@ -275,14 +275,14 @@ Optional HMAC-based authentication helpers for inter-server communication on tru
 
 **Build auth header (client):**
 ```typescript
-import { buildAuthHeader } from '@mcp-z/mcp-discovery';
+import { buildAuthHeader } from '@mcpeasy/mcp-discovery';
 
 const authHeader = buildAuthHeader(secret, 'POST', '/mcp', requestBody);
 ```
 
 **Verify auth (server):**
 ```typescript
-import { verifyPskHmac, expressPskHmac } from '@mcp-z/mcp-discovery';
+import { verifyPskHmac, expressPskHmac } from '@mcpeasy/mcp-discovery';
 
 // Express middleware
 app.use(expressPskHmac(secret));

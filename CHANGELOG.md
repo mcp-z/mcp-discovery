@@ -39,4 +39,4 @@ The format follows [Conventional Commits](https://www.conventionalcommits.org/).
 
 ## Notes
 
-This is the initial release of @mcp-z/mcp-discovery, providing zero-configuration service discovery for Model Context Protocol servers on local networks.
+This is the initial release of @mcpeasy/mcp-discovery, providing zero-configuration service discovery for Model Context Protocol servers on local networks.

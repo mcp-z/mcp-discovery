@@ -1,4 +1,4 @@
-# Contributing to @mcp-z/mcp-discovery
+# Contributing to @mcpeasy/mcp-discovery
 
 Thank you for your interest in contributing!
 

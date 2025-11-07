@@ -12,7 +12,7 @@ import WebSocket from 'ws';
  * ```typescript
  * import { Server } from '@modelcontextprotocol/sdk/server/index.js';
  * import { WebSocketServer } from 'ws';
- * import { WebSocketServerTransport } from '@mcp-z/mcp-discovery/transports/websocket-server.js';
+ * import { WebSocketServerTransport } from '@mcpeasy/mcp-discovery/transports/websocket-server.js';
  *
  * const wss = new WebSocketServer({ port: 8080 });
  *
