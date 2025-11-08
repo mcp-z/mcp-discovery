@@ -72,8 +72,8 @@ it('WebSocket: complete flow with MCP SDK server transport', async () => {
     servers.push(server);
   });
 
-  // Step 2: Advertise via mDNS
-  const stopAdvertising = advertiseService({
+  // Step 2: Advertise via mDNS and wait for it to be published
+  const { ready, cleanup: stopAdvertising } = advertiseService({
     cluster,
     serviceName,
     transport: 'ws',
@@ -83,11 +83,9 @@ it('WebSocket: complete flow with MCP SDK server transport', async () => {
     auth: 'psk',
     node: 'ws:test',
   });
+  await ready; // Wait for advertisement to be published
 
-  // Step 3: Wait for mDNS propagation
-  await new Promise((r) => setTimeout(r, 500));
-
-  // Step 4: Discover services
+  // Step 3: Discover services
   const services = await discoverServices({ cluster, serviceName, timeoutMs: 1500 });
 
   assert.ok(services.length > 0, 'Should discover at least one service');
