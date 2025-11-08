@@ -1,4 +1,4 @@
-# Contributing to @mcp-z/mcp-discovery
+# Contributing to @mcpeasy/mcp-discovery
 
 Thank you for your interest in contributing!
 
@@ -107,7 +107,7 @@ Examples:
 
 Example test structure:
 ```typescript
-import assert from 'node:assert/strict';
+import assert from 'node:assert';
 import test from 'node:test';
 import { discoverServices } from '../src/discover.ts';
 

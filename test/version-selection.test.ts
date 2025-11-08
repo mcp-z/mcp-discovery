@@ -1,6 +1,5 @@
-import assert from 'node:assert/strict';
 import http from 'node:http';
-import test from 'node:test';
+import assert from 'assert';
 import getPort from 'get-port';
 import { advertiseService } from '../src/advertise.ts';
 import { discoverServices } from '../src/discover.ts';
@@ -8,7 +7,7 @@ import { discoverServices } from '../src/discover.ts';
 const cluster = 'c-version-test';
 const serviceName = 'multi-version';
 
-test('discover multiple versions and select highest', async () => {
+it('discover multiple versions and select highest', async () => {
   const servers: any[] = [];
   const stops: (() => void)[] = [];
 
@@ -61,7 +60,7 @@ test('discover multiple versions and select highest', async () => {
   for (const s of servers) s.close();
 });
 
-test('discover multiple versions and select lowest', async () => {
+it('discover multiple versions and select lowest', async () => {
   const servers: any[] = [];
   const stops: (() => void)[] = [];
 
@@ -111,7 +110,7 @@ test('discover multiple versions and select lowest', async () => {
   for (const s of servers) s.close();
 });
 
-test('filter versions by range (v1.x only)', async () => {
+it('filter versions by range (v1.x only)', async () => {
   const servers: any[] = [];
   const stops: (() => void)[] = [];
 
@@ -163,7 +162,7 @@ test('filter versions by range (v1.x only)', async () => {
   for (const s of servers) s.close();
 });
 
-test('discover returns empty array when no services found', async () => {
+it('discover returns empty array when no services found', async () => {
   const results = await discoverServices({
     cluster: 'nonexistent',
     serviceName: 'nonexistent',

@@ -1,10 +1,9 @@
-import assert from 'node:assert/strict';
-import test from 'node:test';
+import assert from 'assert';
 import { buildAuthHeader, verifyPskHmac } from '../src/psk.ts';
 
 const secret = 'test-secret-key';
 
-test('buildAuthHeader creates valid HMAC header', () => {
+it('buildAuthHeader creates valid HMAC header', () => {
   const header = buildAuthHeader(secret, 'POST', '/mcp', { method: 'tools/list' });
   assert.ok(header.startsWith('MCP-HMAC '));
   assert.ok(header.includes('id='));
@@ -13,7 +12,7 @@ test('buildAuthHeader creates valid HMAC header', () => {
   assert.ok(header.includes('mac='));
 });
 
-test('verifyPskHmac validates correct auth header', () => {
+it('verifyPskHmac validates correct auth header', () => {
   const method = 'POST';
   const path = '/mcp';
   const body = { method: 'tools/list' };
@@ -23,7 +22,7 @@ test('verifyPskHmac validates correct auth header', () => {
   assert.equal(valid, true, 'Should validate correct auth header');
 });
 
-test('verifyPskHmac rejects wrong secret', () => {
+it('verifyPskHmac rejects wrong secret', () => {
   const method = 'POST';
   const path = '/mcp';
   const body = { method: 'tools/list' };
@@ -33,7 +32,7 @@ test('verifyPskHmac rejects wrong secret', () => {
   assert.equal(valid, false, 'Should reject wrong secret');
 });
 
-test('verifyPskHmac rejects tampered body', () => {
+it('verifyPskHmac rejects tampered body', () => {
   const method = 'POST';
   const path = '/mcp';
   const body = { method: 'tools/list' };
@@ -44,7 +43,7 @@ test('verifyPskHmac rejects tampered body', () => {
   assert.equal(valid, false, 'Should reject tampered body');
 });
 
-test('verifyPskHmac rejects invalid header format', () => {
+it('verifyPskHmac rejects invalid header format', () => {
   const valid = verifyPskHmac({
     secret,
     method: 'POST',
@@ -54,7 +53,7 @@ test('verifyPskHmac rejects invalid header format', () => {
   assert.equal(valid, false, 'Should reject non-HMAC header');
 });
 
-test('verifyPskHmac rejects missing header', () => {
+it('verifyPskHmac rejects missing header', () => {
   const valid = verifyPskHmac({
     secret,
     method: 'POST',
@@ -63,7 +62,7 @@ test('verifyPskHmac rejects missing header', () => {
   assert.equal(valid, false, 'Should reject missing header');
 });
 
-test('verifyPskHmac rejects expired timestamp', () => {
+it('verifyPskHmac rejects expired timestamp', () => {
   // Create header with old timestamp
   const method = 'POST';
   const path = '/mcp';
