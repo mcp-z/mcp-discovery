@@ -61,13 +61,11 @@
     "ws": "^8.18.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.4",
     "@mcpeasy/package-verify": "^1.1.5",
     "@modelcontextprotocol/sdk": "^1.21.1",
     "@types/mocha": "*",
     "@types/node": "^24.10.0",
     "@types/ws": "^8.18.1",
-    "ts-dev-stack": "^1.19.0",
     "typescript": "^5.9.3"
   },
   "engines": {

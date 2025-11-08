@@ -30,7 +30,7 @@ it('discover multiple versions and select highest', async () => {
       .listen(cfg.port);
     servers.push(server);
 
-    const stop = advertiseService({
+    const { ready, cleanup } = advertiseService({
       cluster,
       serviceName,
       transport: 'http',
@@ -40,11 +40,9 @@ it('discover multiple versions and select highest', async () => {
       auth: 'psk',
       node: cfg.node,
     });
-    stops.push(stop);
+    await ready; // Wait for advertisement to be published
+    stops.push(cleanup);
   }
-
-  // Wait for mDNS propagation
-  await new Promise((r) => setTimeout(r, 300));
 
   const results = await discoverServices({ cluster, serviceName, timeoutMs: 1200 });
   assert.ok(results.length >= 3, 'Should discover at least 3 services');
@@ -82,7 +80,7 @@ it('discover multiple versions and select lowest', async () => {
       .listen(cfg.port);
     servers.push(server);
 
-    const stop = advertiseService({
+    const { ready, cleanup } = advertiseService({
       cluster: 'c-lowest-test',
       serviceName: 'lowest-test',
       transport: 'http',
@@ -92,10 +90,9 @@ it('discover multiple versions and select lowest', async () => {
       auth: 'psk',
       node: cfg.node,
     });
-    stops.push(stop);
+    await ready; // Wait for advertisement to be published
+    stops.push(cleanup);
   }
-
-  await new Promise((r) => setTimeout(r, 300));
 
   const results = await discoverServices({ cluster: 'c-lowest-test', serviceName: 'lowest-test', timeoutMs: 1200 });
 
@@ -132,7 +129,7 @@ it('filter versions by range (v1.x only)', async () => {
       .listen(cfg.port);
     servers.push(server);
 
-    const stop = advertiseService({
+    const { ready, cleanup } = advertiseService({
       cluster: 'c-range-test',
       serviceName: 'range-test',
       transport: 'http',
@@ -142,10 +139,9 @@ it('filter versions by range (v1.x only)', async () => {
       auth: 'psk',
       node: cfg.node,
     });
-    stops.push(stop);
+    await ready; // Wait for advertisement to be published
+    stops.push(cleanup);
   }
-
-  await new Promise((r) => setTimeout(r, 300));
 
   const results = await discoverServices({ cluster: 'c-range-test', serviceName: 'range-test', timeoutMs: 1200 });
 
