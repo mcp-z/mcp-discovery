@@ -49,10 +49,10 @@
     "build": "tsc -p . --noEmit && tsds build",
     "format": "biome check --write --unsafe",
     "lint": "biome check",
+    "prepublish:check": "ncp",
     "prepublishOnly": "tsds validate",
     "test": "tsds test:node --no-timeouts 'test/**/*.test.ts'",
     "test:engines": "nvu engines tsds test:node --no-timeouts 'test/**/*.test.ts'",
-    "verify": "package-verify",
     "version": "tsds version"
   },
   "dependencies": {
@@ -61,11 +61,11 @@
     "ws": "^8.18.3"
   },
   "devDependencies": {
-    "@mcpeasy/package-verify": "^1.1.14",
     "@modelcontextprotocol/sdk": "^1.21.1",
     "@types/mocha": "*",
     "@types/node": "^24.10.0",
     "@types/ws": "^8.18.1",
+    "npm-check-prepublish": "^0.1.0",
     "typescript": "^5.9.3"
   },
   "engines": {
@@ -74,7 +74,7 @@
   "depcheck": {
     "ignores": [
       "@biomejs/biome",
-      "@mcpeasy/package-verify",
+      "npm-check-prepublish",
       "ts-dev-stack",
       "typescript"
     ]
