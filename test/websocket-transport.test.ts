@@ -1,10 +1,9 @@
-import assert from 'node:assert/strict';
-import test from 'node:test';
 import { WebSocketClientTransport } from '@modelcontextprotocol/sdk/client/websocket.js';
+import assert from 'assert';
 import getPort from 'get-port';
 import { WebSocketServer } from 'ws';
 
-test('WebSocketClientTransport: connects successfully', async () => {
+it('WebSocketClientTransport: connects successfully', async () => {
   const port = await getPort();
   const wss = new WebSocketServer({ port });
 
@@ -17,7 +16,7 @@ test('WebSocketClientTransport: connects successfully', async () => {
   await new Promise<void>((r) => wss.close(() => r()));
 });
 
-test('WebSocketClientTransport: sends and receives messages', async () => {
+it('WebSocketClientTransport: sends and receives messages', async () => {
   const port = await getPort();
   const wss = new WebSocketServer({ port });
   const receivedMessages: any[] = [];
@@ -67,7 +66,7 @@ test('WebSocketClientTransport: sends and receives messages', async () => {
   await new Promise<void>((r) => wss.close(() => r()));
 });
 
-test('WebSocketClientTransport: handles connection errors', async () => {
+it('WebSocketClientTransport: handles connection errors', async () => {
   const transport = new WebSocketClientTransport(new URL('ws://localhost:9999'));
 
   let errorReceived = false;
@@ -84,7 +83,7 @@ test('WebSocketClientTransport: handles connection errors', async () => {
   }
 });
 
-test('WebSocketClientTransport: calls onclose callback', async () => {
+it('WebSocketClientTransport: calls onclose callback', async () => {
   const port = await getPort();
   const wss = new WebSocketServer({ port });
 
@@ -104,7 +103,7 @@ test('WebSocketClientTransport: calls onclose callback', async () => {
   await new Promise<void>((r) => wss.close(() => r()));
 });
 
-test('WebSocketClientTransport: rejects send when not connected', async () => {
+it('WebSocketClientTransport: rejects send when not connected', async () => {
   const transport = new WebSocketClientTransport(new URL('ws://localhost:9999'));
 
   try {
