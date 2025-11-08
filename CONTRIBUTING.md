@@ -107,8 +107,8 @@ Examples:
 
 Example test structure:
 ```typescript
-import assert from 'node:assert';
-import test from 'node:test';
+import assert from 'assert';
+import test from 'test';
 import { discoverServices } from '../src/discover.ts';
 
 test('discover returns empty array when no services found', async () => {
