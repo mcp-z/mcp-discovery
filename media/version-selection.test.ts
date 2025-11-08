@@ -1,6 +1,6 @@
-import http from 'node:http';
 import assert from 'assert';
 import getPort from 'get-port';
+import http from 'http';
 import { advertiseService } from '../src/advertise.ts';
 import { discoverServices } from '../src/discover.ts';
 

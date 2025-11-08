@@ -1,4 +1,4 @@
-import crypto from 'node:crypto';
+import crypto from 'crypto';
 
 export function buildAuthHeader(secret: string, method: string, path: string, body?: unknown) {
   const ts = new Date().toISOString();
