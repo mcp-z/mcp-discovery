@@ -103,6 +103,7 @@ Examples:
 - Test both success and failure cases
 - Mock network operations when appropriate for unit tests
 - Use integration tests for real mDNS flows
+- **Always use `get-port` for dynamic port allocation** to avoid port conflicts
 
 Example test structure:
 ```typescript
@@ -117,6 +118,18 @@ test('discover returns empty array when no services found', async () => {
     timeoutMs: 500
   });
   assert.deepEqual(services, []);
+});
+```
+
+Example with dynamic ports:
+```typescript
+import getPort from 'get-port';
+import { WebSocketServer } from 'ws';
+
+test('WebSocket server test', async () => {
+  const port = await getPort(); // Get available port dynamically
+  const wss = new WebSocketServer({ port });
+  // ... rest of test
 });
 ```
 

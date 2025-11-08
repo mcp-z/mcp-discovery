@@ -320,11 +320,7 @@ Clients discover both and can select either.
 
 ### Complete Working Examples
 
-See the [`test/`](./test) directory for comprehensive examples:
-
-**Basic Discovery:**
-- [`test/basic-discovery.test.ts`](./test/basic-discovery.test.ts) - Simple server advertisement and client discovery
-- Quick pattern: Advertise → Discover → Connect
+See the `test/` directory for comprehensive examples:
 
 **Version Selection:**
 - [`test/version-selection.test.ts`](./test/version-selection.test.ts) - Filter by version, select highest version, compatibility ranges
