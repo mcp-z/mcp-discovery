@@ -1,7 +1,7 @@
-import { WebSocketServerTransport } from '@mcpeasy/mcp-internal';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { WebSocketClientTransport } from '@modelcontextprotocol/sdk/client/websocket.js';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { WebSocketServerTransport } from '@modelcontextprotocol/sdk/server/websocket.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import assert from 'assert';
 import getPort from 'get-port';

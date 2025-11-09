@@ -52,7 +52,6 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "@mcpeasy/mcp-internal": "^0.2.4",
     "bonjour-service": "^1.3.0",
     "get-port": "^7.1.0",
     "ws": "^8.18.3"
@@ -62,7 +61,7 @@
     "@types/mocha": "*",
     "@types/node": "^24.10.0",
     "@types/ws": "^8.18.1",
-    "npm-check-prepublish": "^0.1.0",
+    "npm-check-prepublish": "^0.1.1",
     "typescript": "^5.9.3"
   },
   "engines": {
