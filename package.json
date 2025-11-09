@@ -52,7 +52,7 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "@mcpeasy/mcp-internal": "^0.2.3",
+    "@mcpeasy/mcp-internal": "^0.2.4",
     "bonjour-service": "^1.3.0",
     "get-port": "^7.1.0",
     "ws": "^8.18.3"
