@@ -1,5 +1,5 @@
+import { buildAuthHeader, verifyPskHmac } from '@mcpeasy/mcp-internal';
 import assert from 'assert';
-import { buildAuthHeader, verifyPskHmac } from '../src/psk.ts';
 
 const secret = 'test-secret-key';
 

@@ -291,7 +291,7 @@ app.use(expressPskHmac(secret));
 const valid = verifyPskHmac({ secret, method, path, body, authHeader });
 ```
 
-See [`test/psk-auth.test.ts`](./test/psk-auth.test.ts) and [`src/psk.ts`](./src/psk.ts) for complete examples.
+See [`test/psk-auth.test.ts`](./test/psk-auth.test.ts) for complete examples. PSK implementation is now in `@mcpeasy/mcp-internal` package.
 
 ---
 
