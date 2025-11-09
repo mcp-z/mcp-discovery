@@ -1,3 +1,4 @@
+import { WebSocketServerTransport } from '@mcpeasy/mcp-internal';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { WebSocketClientTransport } from '@modelcontextprotocol/sdk/client/websocket.js';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
@@ -7,7 +8,6 @@ import getPort from 'get-port';
 import { WebSocketServer } from 'ws';
 import { advertiseService } from '../src/advertise.ts';
 import { discoverServices, toBaseUrl } from '../src/discover.ts';
-import { WebSocketServerTransport } from '../src/transports/websocket-server.ts';
 
 const cluster = 'c-ws-test';
 const serviceName = 'ws-service';
