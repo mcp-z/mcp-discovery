@@ -291,7 +291,7 @@ app.use(expressPskHmac(secret));
 const valid = verifyPskHmac({ secret, method, path, body, authHeader });
 ```
 
-See [`test/psk-auth.test.ts`](./test/psk-auth.test.ts) for complete examples. PSK implementation is now in `@mcpeasy/mcp-internal` package.
+PSK implementation is now in `@mcpeasy/mcp-internal` and `@mcpeasy/websocket` packages.
 
 ---
 
@@ -326,22 +326,13 @@ See the `test/` directory for comprehensive examples:
 - [`test/version-selection.test.ts`](./test/version-selection.test.ts) - Filter by version, select highest version, compatibility ranges
 - Perfect for: Multi-version deployments
 
-**WebSocket Integration:**
-- [`test/websocket-integration.test.ts`](./test/websocket-integration.test.ts) - Complete WebSocket server + client + MCP communication
-- Production-ready: Full lifecycle management
-
-**PSK Authentication:**
-- [`test/psk-auth.test.ts`](./test/psk-auth.test.ts) - Pre-shared key authentication patterns
-- Secure: HMAC-based request signing
+**WebSocket & PSK Integration:**
+- See `@mcpeasy/websocket` package for complete WebSocket + PSK authentication examples
+- Production-ready: Full lifecycle management with server-to-server communication
 
 **Run all tests:**
 ```bash
-npm test  # 17 tests, all passing
-```
-
-**Run specific test:**
-```bash
-npm test -- test/websocket-integration.test.ts
+npm test
 ```
 
 ---
