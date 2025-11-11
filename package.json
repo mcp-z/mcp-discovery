@@ -49,7 +49,7 @@
     "prepublishOnly": "tsds validate",
     "test": "tsds test:node --no-timeouts 'test/**/*.test.ts'",
     "test:engines": "nvu engines tsds test:node --no-timeouts 'test/**/*.test.ts'",
-    "version": "tsds version"
+    "version-skip": "tsds version"
   },
   "dependencies": {
     "bonjour-service": "^1.3.0",
