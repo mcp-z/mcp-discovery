@@ -115,7 +115,7 @@
 <pre><code class="typescript"><span class="hl-4">import</span><span class="hl-2"> { </span><span class="hl-5">verifyPskHmac</span><span class="hl-2">, </span><span class="hl-5">expressPskHmac</span><span class="hl-2"> } </span><span class="hl-4">from</span><span class="hl-2"> </span><span class="hl-3">&#39;@mcpeasy/mcp-discovery&#39;</span><span class="hl-2">;</span><br/><br/><span class="hl-0">// Express middleware</span><br/><span class="hl-5">app</span><span class="hl-2">.</span><span class="hl-1">use</span><span class="hl-2">(</span><span class="hl-1">expressPskHmac</span><span class="hl-2">(</span><span class="hl-5">secret</span><span class="hl-2">));</span><br/><br/><span class="hl-0">// Manual verification</span><br/><span class="hl-6">const</span><span class="hl-2"> </span><span class="hl-7">valid</span><span class="hl-2"> = </span><span class="hl-1">verifyPskHmac</span><span class="hl-2">({ </span><span class="hl-5">secret</span><span class="hl-2">, </span><span class="hl-5">method</span><span class="hl-2">, </span><span class="hl-5">path</span><span class="hl-2">, </span><span class="hl-5">body</span><span class="hl-2">, </span><span class="hl-5">authHeader</span><span class="hl-2"> });</span>
 </code><button type="button">Copy</button></pre>
 
-<p>See <a href="./test/psk-auth.test.ts"><code>test/psk-auth.test.ts</code></a> for complete examples. PSK implementation is now in <code>@mcpeasy/mcp-internal</code> package.</p>
+<p>PSK implementation is now in <code>@mcpeasy/mcp-internal</code> and <code>@mcpeasy/websocket</code> packages.</p>
 <hr>
 <h2 id="understanding-servicename-node-and-version" class="tsd-anchor-link">Understanding serviceName, node, and version<a href="#understanding-servicename-node-and-version" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2><ul>
 <li><strong><code>serviceName</code></strong> - What the service does (e.g., 'gmail'). Same across all instances.</li>
@@ -135,22 +135,13 @@
 <li><a href="media/version-selection.test.ts"><code>test/version-selection.test.ts</code></a> - Filter by version, select highest version, compatibility ranges</li>
 <li>Perfect for: Multi-version deployments</li>
 </ul>
-<p><strong>WebSocket Integration:</strong></p>
+<p><strong>WebSocket &amp; PSK Integration:</strong></p>
 <ul>
-<li><a href="./test/websocket-integration.test.ts"><code>test/websocket-integration.test.ts</code></a> - Complete WebSocket server + client + MCP communication</li>
-<li>Production-ready: Full lifecycle management</li>
-</ul>
-<p><strong>PSK Authentication:</strong></p>
-<ul>
-<li><a href="./test/psk-auth.test.ts"><code>test/psk-auth.test.ts</code></a> - Pre-shared key authentication patterns</li>
-<li>Secure: HMAC-based request signing</li>
+<li>See <code>@mcpeasy/websocket</code> package for complete WebSocket + PSK authentication examples</li>
+<li>Production-ready: Full lifecycle management with server-to-server communication</li>
 </ul>
 <p><strong>Run all tests:</strong></p>
-<pre><code class="bash"><span class="hl-1">npm</span><span class="hl-2"> </span><span class="hl-3">test</span><span class="hl-2">  </span><span class="hl-0"># 17 tests, all passing</span>
-</code><button type="button">Copy</button></pre>
-
-<p><strong>Run specific test:</strong></p>
-<pre><code class="bash"><span class="hl-1">npm</span><span class="hl-2"> </span><span class="hl-3">test</span><span class="hl-2"> </span><span class="hl-6">--</span><span class="hl-2"> </span><span class="hl-3">test/websocket-integration.test.ts</span>
+<pre><code class="bash"><span class="hl-1">npm</span><span class="hl-2"> </span><span class="hl-3">test</span>
 </code><button type="button">Copy</button></pre>
 
 <hr>
