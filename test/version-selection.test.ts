@@ -8,7 +8,7 @@ const cluster = 'c-version-test';
 const serviceName = 'multi-version';
 
 it('discover multiple versions and select highest', async () => {
-  const servers: any[] = [];
+  const servers: http.Server[] = [];
   const stops: (() => void)[] = [];
 
   // Get dynamic ports for 3 servers
@@ -59,7 +59,7 @@ it('discover multiple versions and select highest', async () => {
 });
 
 it('discover multiple versions and select lowest', async () => {
-  const servers: any[] = [];
+  const servers: http.Server[] = [];
   const stops: (() => void)[] = [];
 
   // Get dynamic ports for 3 servers
@@ -108,7 +108,7 @@ it('discover multiple versions and select lowest', async () => {
 });
 
 it('filter versions by range (v1.x only)', async () => {
-  const servers: any[] = [];
+  const servers: http.Server[] = [];
   const stops: (() => void)[] = [];
 
   // Get dynamic ports for 3 servers

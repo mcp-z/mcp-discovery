@@ -1,10 +1,24 @@
 import { Bonjour } from 'bonjour-service';
-import type { LaunchInfo, ServiceInfo } from './types.ts';
+import type { AuthKind, LaunchInfo, ServiceInfo, Transport } from './types.ts';
 
 export interface DiscoverOpts {
   cluster: string;
   serviceName: string;
   timeoutMs?: number;
+}
+
+/**
+ * Type guard to validate transport values from mDNS TXT records
+ */
+function isValidTransport(value: unknown): value is Transport {
+  return value === 'http' || value === 'ws';
+}
+
+/**
+ * Type guard to validate auth kind values from mDNS TXT records
+ */
+function isValidAuthKind(value: unknown): value is AuthKind {
+  return value === 'psk' || value === 'mtls';
 }
 
 export async function discoverServices(opts: DiscoverOpts): Promise<ServiceInfo[]> {
@@ -16,22 +30,30 @@ export async function discoverServices(opts: DiscoverOpts): Promise<ServiceInfo[
     const browser = bonjour.find({ type: 'mcp', protocol: 'tcp' }, (s) => {
       const txt = (s.txt ?? {}) as Record<string, string>;
       if (txt.cluster === cluster && txt.name === serviceName) {
-        let launch;
+        // Parse and validate launch info from base64 TXT record
+        let launch: LaunchInfo | undefined;
         if (txt.launchB64) {
           try {
-            launch = JSON.parse(Buffer.from(txt.launchB64, 'base64').toString('utf8')) as LaunchInfo;
-          } catch {}
+            const parsed = JSON.parse(Buffer.from(txt.launchB64, 'base64').toString('utf8'));
+            // Validate that parsed data matches LaunchInfo structure
+            if (parsed && typeof parsed === 'object' && 'mode' in parsed && parsed.mode === 'stdio' && 'cmd' in parsed && typeof parsed.cmd === 'string') {
+              launch = parsed as LaunchInfo;
+            }
+          } catch {
+            // Invalid launch info - leave undefined
+          }
         }
+
         results.push({
           cluster,
           serviceName,
           serviceKind: 'mcp',
-          transport: (txt.transport as any) || 'http',
+          transport: isValidTransport(txt.transport) ? txt.transport : 'http',
           port: s.port ?? 0,
           path: txt.path || '/mcp',
           ...(txt.version && { version: txt.version }),
           ...(txt.capsUrl && { capsUrl: txt.capsUrl }),
-          auth: (txt.auth as any) || 'psk',
+          auth: isValidAuthKind(txt.auth) ? txt.auth : 'psk',
           node: txt.node || 'unknown',
           host: s.host || s.fqdn,
           ...(launch && { launch }),
