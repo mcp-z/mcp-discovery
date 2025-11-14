@@ -1,21 +1,23 @@
 {
   "compilerOptions": {
-    "skipLibCheck": true,
-    "outDir": "dist",
-    "lib": ["es2015"],
-    "types": ["mocha", "node"],
-    "target": "es2019",
-    "module": "esnext",
-    "moduleResolution": "node",
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "strict": true,
+    "declaration": true,
     "sourceMap": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "rewriteRelativeImportExtensions": true,
     "erasableSyntaxOnly": true,
     "verbatimModuleSyntax": true,
-    "downlevelIteration": true,
-    "allowJs": true
+    "noEmit": true,
+    "types": ["node", "mocha"],
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "newLine": "lf",
+    "skipLibCheck": true
   },
-  "exclude": ["node_modules", "dist", "test/data"],
-  "include": ["src", "test"]
+  "include": ["src/**/*", "test/**/*"],
+  "exclude": ["node_modules/**/*"]
 }
