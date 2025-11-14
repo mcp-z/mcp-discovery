@@ -18,19 +18,9 @@ This project provides mDNS/DNS-SD service discovery for Model Context Protocol (
    npm test
    ```
 
-3. Run type checking:
-   ```bash
-   npm run typecheck
-   ```
-
-4. Format & lint (Biome auto-fixes):
+3. Format & lint (Biome auto-fixes):
    ```bash
    npm run format
-   ```
-
-5. Lint only (no auto-fix):
-   ```bash
-   npm run lint
    ```
 
 ## Project Structure
@@ -154,7 +144,7 @@ Before adding a new feature:
 
 1. Ensure working directory is clean and all tests pass
 2. Update CHANGELOG.md with notable changes under appropriate version
-3. Run `npm run build` (includes typecheck)
+3. Run `npm run build`
 4. Bump version: `npm version <patch|minor|major>`
 5. Push with tags: `git push && git push --tags`
 6. Publish: `npm publish`
