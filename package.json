@@ -1,6 +1,6 @@
 {
   "name": "@mcpeasy/mcp-discovery",
-  "version": "0.1.32",
+  "version": "0.1.33",
   "description": "Zero-configuration service discovery for MCP servers via mDNS. Supports HTTP and WebSocket transports.",
   "keywords": [
     "mcp",
